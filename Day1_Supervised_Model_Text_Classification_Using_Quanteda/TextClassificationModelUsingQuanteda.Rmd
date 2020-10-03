@@ -1,0 +1,188 @@
+---
+title: "Text Classification Naive Bayes Model using Quanteda"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
+
+```{r}
+plot(cars)
+```
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+
+```{r}
+# Importing the required libraries
+library("tidyverse")
+library("quanteda")
+library("quanteda.textmodels")
+library("caret")
+```
+
+```{r}
+# Read in the training and testing datasets
+train_df <- read_csv(file = "data/Corona_NLP_train.csv")
+test_df <- read_csv(file = "data/Corona_NLP_test.csv")
+```
+
+```{r}
+# Select the text column containing the tweet and label column containing the Sentiment.
+train_df <- train_df %>% 
+  select(OriginalTweet,Sentiment)
+
+test_df <- test_df %>% 
+  select(OriginalTweet,Sentiment)
+```
+
+Corpus is a type of dataset that is used in text analysis. It contains “a collection of text or speech material that has been brought together according to a certain set of predetermined criteria” (Shmelova et al. 2019, p. 33)
+```{r}
+# Create a corpus of text using quanteda corpus() function
+myCorpus_train <- corpus(train_df, text_field = "OriginalTweet")
+myCorpus_test <- corpus(test_df, text_field = "OriginalTweet")
+```
+
+
+A token is each individual word in a text (but it could also be a sentence, paragraph, or character). This is why we call creating a “bag of words” also tokenizing text
+```{r}
+# Tokenizing the train data corpus and preprocessing using tokens() function in quanteda
+token_train <-
+  tokens(
+    myCorpus_train,
+    remove_numbers = TRUE,
+    remove_punct = TRUE,
+    remove_symbols = TRUE,
+    remove_url = TRUE,
+    split_hyphens = TRUE,
+    include_docvars = TRUE
+  )
+```
+
+```{r}
+# Tokenizing the test data corpus and preprocessing using tokens() function in quanteda
+token_test <-
+  tokens(
+    myCorpus_test,
+    remove_numbers = TRUE,
+    remove_punct = TRUE,
+    remove_symbols = TRUE,
+    remove_url = TRUE,
+    split_hyphens = TRUE,
+    include_docvars = TRUE
+  )
+```
+
+```{r}
+# Cleaning the tokens to remove numbers, punctuations and special characters
+token_test <- tokens_select(
+  token_test,
+  c("[\\d-]", "[[:punct:]]", "^.{1,2}$"),
+  selection = "remove",
+  valuetype = "regex",
+  verbose = TRUE
+)
+```
+```{r}
+token_train <- tokens_select(
+  token_train,
+  c("[\\d-]", "[[:punct:]]", "^.{1,2}$"),
+  selection = "remove",
+  valuetype = "regex",
+  verbose = TRUE
+)
+```
+
+Another essential component for text analysis is a document-feature matrix (DFM); also called document-term matrix (DTM). These two terms are synonyms but quanteda refers to a DFM whereas others will refer to DTM. 
+```{r}
+# Creating a DFM Document Feature Matrix
+dfm_train <- token_train %>% 
+  dfm(stem=TRUE)
+
+dfm_test <- token_test %>% 
+  dfm(stem=TRUE)
+```
+
+
+```{r}
+# Checking distribution of Sentiment lables in Train Set
+print(prop.table(table(docvars(
+  dfm_train, "Sentiment"
+))) * 100)
+```
+
+```{r}
+# Checking distribution of Sentiment lables in Test Set
+print(prop.table(table(docvars(
+  dfm_test, "Sentiment"
+))) * 100)
+```
+
+The distribution is similar which is good for our analysis as both test and train sets are similarly distributed
+```{r}
+# Train naive Bayes
+# The function takes a DFM as the first argument 
+model.NaiveBayes <-
+  #textmodel_wordscores(dfm_train, docvars(dfm_train, "Sentiment"), prior = "docfreq")
+  textmodel_nb(dfm_train, docvars(dfm_train, "Sentiment"))
+# The prior indicates an assumed distribution. 
+# Here we choose how frequently the categories occur in our data.
+dfmat_matched <-
+  dfm_match(dfm_test, features = featnames(dfm_train))
+```
+
+```{r}
+# Check the performance
+prop.table(table(predict(model.NaiveBayes) == docvars(dfm_train, "Sentiment"))) * 100
+```
+
+```{r}
+# Perfromance of random sampling to see the baseline
+prop.table(table(sample(predict(model.NaiveBayes)) == docvars(dfm_train, "Sentiment"))) * 100
+```
+
+Thus, our model is better than baseline.
+
+```{r}
+# Confusion matrix of the prediction made over test set
+actual_class <- docvars(dfmat_matched, "Sentiment")
+predicted_class <- predict(model.NaiveBayes, newdata = dfmat_matched)
+tab_class <- table(actual_class, predicted_class)
+tab_class
+```
+
+```{r}
+# Confusion matix using Caret library
+confusion <- confusionMatrix(tab_class, mode = "everything")
+```
+
+```{r}
+# Though we achieve high specificity, the accuracy we get is not great but that can be improved with better preprocessing.
+confusion
+```
+
+
+```{r}
+# Plot a heatmap of the confusionmatrix.
+# Save confusion matrix as data frame
+confusion.data <- as.data.frame(confusion[["table"]])
+# Reverse the order
+level_order_y <-
+  factor(confusion.data$actual_class,
+         level = c('Extremely Negative', 'Extremely Positive', 'Negative', 'Neutral', 'Positive'))
+ggplot(confusion.data,
+       aes(x = predicted_class, y = level_order_y, fill = Freq)) +
+  xlab("Predicted class") +
+  ylab("Actual class") +
+  geom_tile() + theme_bw() + coord_equal() +
+  scale_fill_distiller(palette = "Blues", direction = 1) +
+  scale_x_discrete(labels = c('Extremely Negative', 'Extremely Positive', 'Negative', 'Neutral', 'Positive')) +
+  scale_y_discrete(labels = c('Extremely Negative', 'Extremely Positive', 'Negative', 'Neutral', 'Positive')) +
+  theme(axis.text.x = element_text(angle=90, hjust=1))
+```
+
+
