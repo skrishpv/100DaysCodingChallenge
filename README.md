@@ -10,3 +10,5 @@ I began a 100 Days Coding Challenge on 1st October, 2020 and this repository con
 *<b>Day 3</b>*: Solved a problem posted on Leetcode October Challenge on 10/4/2020. 
 
 *<b>Day 4</b>*: Created a Tableau Dashboard for MakeOverMonday Challenge 2020 week 40
+
+*<b>Day 5</b>*: Text Sentiment Classification using Deep learning with Pytorch
