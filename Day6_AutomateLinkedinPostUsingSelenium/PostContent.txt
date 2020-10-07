@@ -1,9 +1,15 @@
 Enter your post content here!
 Eg:
 Day 6 of 100:
+Guess how I made this post today! I just made one click and it was done. I automated the LinkedIn post using Selenium and python today. So now all I need to do is put my content in a text file and run my python script to make a post to LinkedIn. 
 
-Guess how I made this post today! I just made one click and it was done. I automated the linkedin post using Selenium and python today. So now all I need to do is put my content in a txt file and run my python script to make a post to Linkedin. 
 Selenium is a great tool when it comes to scraping and aggregating data for a project. It is also used in testing and QA. I think playing around with Selenium helps you learn a new skill to complement BeautifulSoup and also helps refresh your HTML and CSS knowledge. 
+
 Below is my code file. I have implemented a basic post today, but the same logic can be used to add attachments and hashtags to your posts and to send automated connection requests. Give it a try!
 
+https://github.com/skrishpv/100DaysCodingChallenge/blob/main/Day6_AutomateLinkedinPostUsingSelenium/Day6_AutomateLinkedinPostUsingSeleniumPython.ipynb
+
 Please do share your comments and thoughts!
+
+#dailyCoding #100 #100dayprogrammingchallenge #pythonprogramming # #coderforlife #selenium #datascraping # #studentvoices #learningeveryday #testing 
+
