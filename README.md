@@ -12,3 +12,5 @@ I began a 100 Days Coding Challenge on 1st October, 2020 and this repository con
 *<b>Day 4</b>*: Created a Tableau Dashboard for MakeOverMonday Challenge 2020 week 40
 
 *<b>Day 5</b>*: Text Sentiment Classification using Deep learning with Pytorch
+
+*<b>Day 6</b>*: Automated Linkedin posts using Selenium and Python
