@@ -14,3 +14,5 @@ I began a 100 Days Coding Challenge on 1st October, 2020 and this repository con
 *<b>Day 5</b>*: Text Sentiment Classification using Deep learning with Pytorch
 
 *<b>Day 6</b>*: Automated Linkedin posts using Selenium and Python
+
+*<b>Day 7</b>*: Completed the Deep learning Specialization on Coursera with the last programming assignment on sequence models. No code available.
