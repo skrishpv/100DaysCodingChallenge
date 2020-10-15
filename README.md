@@ -25,3 +25,7 @@ I began a 100 Days Coding Challenge on 1st October, 2020 and this repository con
 
 *<b>Day 11</b>*: Created a Tableau Dashboard for MakeOverMonday Challenge 2020 week 41
 
+*<b>Day 12</b>*: Made progress on the Data Visualization specialization I am pursuing on Coursera. (No Code available)
+
+*<b>Day 13</b>*: Implemented dropout using pytorch as a part of Lab in the "Big data and AI" course I am taking at school.
+
