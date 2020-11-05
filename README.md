@@ -29,3 +29,20 @@ I began a 100 Days Coding Challenge on 1st October, 2020 and this repository con
 
 *<b>Day 13</b>*: Implemented dropout using pytorch as a part of Lab in the "Big data and AI" course I am taking at school.
 
+*<b>Day 14</b>*: Implemented a function that can find top N similar words for a given input word using Word2Vec
+
+*<b>Day 15</b>*: Python function to concat lists of different datatypes
+
+*<b>Day 16</b>*: Solved a problem posted on Leetcode October Challenge on 10/18/2020. No code available
+
+*<b>Day 17</b>*: Created a Tableau Dashboard for MakeOverMonday Challenge 2020 week 42
+
+*<b>Day 18</b>*: Developed a custom code to get a DFM in the format I needed to work on a project.(No code available as it is in an ongoing project)
+
+*<b>Day 19</b>*: Created a Tableau Dashboard for MakeOverMonday Challenge 2020 week 44
+
+*<b>Day 20</b>*: Created a Tableau Dashboard for a Data Visualization course I am taking on Coursera.
+
+*<b>Day 21</b>*: Developed a Neural Network model to solve a handwritten digit recognition problem using MNIST dataset.
+
+
