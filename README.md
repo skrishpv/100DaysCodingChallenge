@@ -35,7 +35,7 @@ I began a 100 Days Coding Challenge on 1st October, 2020 and this repository con
 
 *<b>Day 16</b>*: Solved a problem posted on Leetcode October Challenge on 10/18/2020. No code available
 
-*<b>Day 17</b>*: Created a Tableau Dashboard for MakeOverMonday Challenge 2020 week 42
+*<b>Day 17</b>*: Created a Tableau Dashboard for MakeOverMonday Challenge 2020 week 42. Link: https://public.tableau.com/profile/shashank5990#!/vizhome/MakeOverMonday_2020W41/Sheet1
 
 *<b>Day 18</b>*: Developed a custom code to get a DFM in the format I needed to work on a project.(No code available as it is in an ongoing project)
 
