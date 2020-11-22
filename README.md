@@ -45,4 +45,20 @@ I began a 100 Days Coding Challenge on 1st October, 2020 and this repository con
 
 *<b>Day 21</b>*: Developed a Neural Network model to solve a handwritten digit recognition problem using MNIST dataset.
 
+*<b>Day 22</b>*: Solved a problem posted on Leetcode November Challenge on 11/06/2020. No code available
 
+*<b>Day 23</b>*: Created a Tableau Dashboard for MakeOverMonday Challenge 2020 week 45.
+
+*<b>Day 24</b>*: Solved a problem posted on Leetcode November Challenge on 11/11/2020. No code available.
+
+*<b>Day 25</b>*: Solved a problem posted on Leetcode to flip an array and replace ones with zeros and vice versa. No code available.
+
+*<b>Day 26</b>*: Developed a binary sentiment classifier using RNN model. Python pytorch libraries were used.
+
+*<b>Day 27</b>*: Created a tableau dashboard to review the discount policy of a company. Part of coursera course on Data Visualization.
+
+*<b>Day 28</b>*: Created a story point presentation on tableau to review the discount policy of a company. Part of coursera course on Data Visualization.
+
+*<b>Day 29</b>*: Created a Tableau Dashboard for MakeOverMonday Challenge 2020 week 46.
+
+*<b>Day 30</b>*: Exploratory analysis using scatterplot and hexagonal binning plot and comparing the results.
