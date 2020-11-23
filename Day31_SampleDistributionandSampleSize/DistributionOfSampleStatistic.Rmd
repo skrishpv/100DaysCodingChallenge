@@ -1,0 +1,38 @@
+---
+title: "Distribution of Sample Statistic vs the Sample Size"
+output: html_notebook
+---
+
+```{r}
+library(ggplot2)
+loans_income <- read.csv(file.path('Data', 'loans_income.csv'))[,1]
+```
+
+```{r}
+# take a simple random sample from the data
+sample_data <- data.frame(income = sample(loans_income, 1000), type = 'data_dist')
+```
+
+```{r}
+sample_mean_05 <- data.frame(income = tapply(sample(loans_income, 1000 * 5), rep(1:1000, rep(5,1000)), FUN = mean), type = 'mean_of_5')
+```
+
+```{r}
+sample_mean_20 <- data.frame(income = tapply(sample(loans_income, 1000 * 20), rep(1:1000, rep(20,1000)), FUN = mean), type = 'mean_of_20')
+```
+
+```{r}
+sample_mean_30 <- data.frame(income = tapply(sample(loans_income, 1000 * 30), rep(1:1000, rep(30,1000)), FUN = mean), type = 'mean_of_30')
+```
+
+```{r}
+income <- rbind(sample_data, sample_mean_05, sample_mean_20, sample_mean_30)
+income$type = factor(income$type, levels = c('data_dist', 'mean_of_5','mean_of_20','mean_of_30'), labels = c('Data','Mean of 5','Mean of 20', 'Mean of 30'))
+```
+
+```{r}
+ggplot(income, aes(x=income))+
+  geom_histogram(bins=40)+
+  facet_grid(type ~.)
+```
+
