@@ -64,3 +64,7 @@ I began a 100 Days Coding Challenge on 1st October, 2020 and this repository con
 *<b>Day 30</b>*: Exploratory analysis using scatterplot and hexagonal binning plot and comparing the results.
 
 *<b>Day 31</b>*: Understanding how sample distribution changes with the change in sample size.
+
+*<b>Day 32</b>*: Created a Tableau Dashboard for MakeOverMonday Challenge 2020 week 47.
+
+*<b>Day 33</b>*: Implemented a permutation test to check for statistical significance in the results using R.
