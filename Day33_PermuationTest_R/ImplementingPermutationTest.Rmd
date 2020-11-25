@@ -1,0 +1,75 @@
+---
+title: "Distribution of Sample Statistic vs the Sample Size"
+output: html_notebook
+---
+
+A company has two webpages Page A and Page B and they want to measure the effectiveness of the two pages to determine which one is better. This is a classic setup for A/B testing. They wish to use the time the users spend on each page as a metric of measurement of effectiveness. The real metric would be the revenue generated or sales generated, but at times when the metric is costly to generate or time consuming we produce we chose a simpler metric which is correlated to the main metric. Here the session time is such a metric and it is called as a 'Proxy Variable'
+
+Steps in a permutation Test:
+
+Step 1:
+Combine the results from the different groups into a single data set. 
+Here I already have the combined data set and I am loading it into the rstudio.
+
+Step 2:
+Shuffle the combines data and then randomly draw(without replacement or with replacement) a resample of the same size as group A (Page A)
+
+Step 3:
+From the remaining data, randomly draw(without replacement or with replacement) a resample of the same size as group B. Now you have collected one set of resamples that mirror the sizes of the original samples.
+
+Step 4:
+Whatever the statistic or estimate(Session time in our case) was calculated for the original samples, calculate it now for the resamples, and record; this constitutes one permutation iteration.
+
+Step 5:
+Repeat the previous steps R times to yield a permutation distribution of the test statistic.
+
+Now go back to the observed difference between groups and compare it to the set of permutated differences. If the observed value lies within the set of permuatated differences, we have proven nothing. The observed value is just within the range of values chance might produce. However, if the observed difference lies outside most of the permutation distribution, then we conclude that chance is not responsible. That the difference is statistically significant.
+
+Refer to code below:
+
+```{r}
+library(ggplot2)
+session_times <- data.frame(read.csv(file.path('Data', 'web_page_data.csv')))
+# Preview the dataset
+session_times
+```
+
+```{r}
+# Visualize the distribution of the data
+ggplot(session_times, aes(x=Page, y=Time)) + 
+  geom_boxplot()
+```
+```{r}
+# Calculate the test statistic (mean session times) and record the observed output.
+mean_a <- mean(session_times[session_times['Page'] == 'Page A', 'Time'])
+mean_b <- mean(session_times[session_times['Page'] == 'Page B', 'Time'])
+mean_b - mean_a
+```
+Page B has session times greater than those of page A by 35.67 secs
+Now, to apply a permutation test, we need a function to randomly assign the 36 session times to a group of 21(page A) and a group of 15(page B)
+```{r}
+# permutation test function
+permutation <- function(x, nA, nB)
+{
+  n <- nA + nB
+  idx_b <- sample(1:n, nB)
+  idx_a <- setdiff(1:n, idx_b)
+  mean_diff <- mean(x[idx_b])-mean(x[idx_a])
+  return(mean_diff)
+}
+```
+
+```{r}
+# call the function R=1000 times and record the test statistic for each R. The plot the sample distribution.
+perm_diffs <- rep(0,1000)
+for (i in 1:1000) {
+  perm_diffs[i] = permutation(session_times[,'Time'], 21, 15)
+}
+hist(perm_diffs, xlab='Session time differneces (in secs)')
+abline(v=mean_b-mean_a)
+```
+```{r}
+# where does our observation lie?
+mean(perm_diffs > (mean_b-mean_a))
+```
+This suggests that the observed difference in session time between page A and page B is well withing the range of chance variation and thus not statistically significant. The value 0.153 is also the p-value. 
