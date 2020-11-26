@@ -1,0 +1,49 @@
+---
+title: "Implementation of ANOVA"
+output: html_notebook
+---
+
+A company has 4 webpages Page A, B, C and D and they want to measure the effectiveness of the 4 pages to determine which one is better. They wish to use the time the users spend on each page as a metric of measurement of effectiveness. The real metric would be the revenue generated or sales generated, but at times when the metric is costly to generate or time consuming we produce we chose a simpler metric which is correlated to the main metric. Here the session time is such a metric and it is called as a 'Proxy Variable'. This is different from A/B testing where we compare a pair and determine which one is better. We can do multiple pairwise comparisons but that will increase the chances of Type I error. So we analyse the variance in the data (ANOVA).
+
+Procedure to perform ANOVA test:
+
+Step 1:
+Combine all the data together in a single data set.
+Here I already have the combined data set and I am loading it into the rstudio.
+
+Step 2:
+Shuffle and draw out four resamples of five values each.
+
+Step 3:
+Record the mean of each of the four groups.
+
+Step 4:
+Record the variance among the four group means.
+
+Step 5:
+Repeat steps 2-4 R times.
+
+
+```{r}
+library(lmPerm)
+four_sessions <- data.frame(read.csv(file.path('Data', 'four_sessions.csv')))
+```
+
+```{r}
+# Preview the data
+four_sessions
+```
+
+We can use the 'aovp' function in the lmPerm package to do this for us.
+
+```{r}
+summary(aovp(Time ~ Page, data=four_sessions))
+```
+
+We can see that the p-value if 0.1063. This means that there is a 10.63% chance that the response rate among four pages might differ as much as was actually observed, just by chance. So the results are not statistically significant.
+
+```{r}
+# F-statistice based approach
+summary(aov(Time ~ Page, data=four_sessions))
+```
+
